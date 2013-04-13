@@ -2,6 +2,7 @@
 
 import os
 import os.path
+import sys
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -24,6 +25,13 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default.
     }
 }
+
+if 'test' in sys.argv:
+        DATABASES['default'] = {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'caseword',
+        }
+        SOUTH_TESTS_MIGRATE = False
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
