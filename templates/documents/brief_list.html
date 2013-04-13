@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Editing {{ brief.title }}</title>
+</head>
+
+<body>
+<h1>View all my briefs</h1>
+<table>
+    <tr><th>Title</th></tr>
+    {% for brief in brief_list %}
+    <tr><td><a href = '{{ brief.get_absolute_url }}'>{{ brief.title }}</a><td></tr>
+    {% endfor %}
+</table>
+</body>
+
+</html>
+
+
+
+

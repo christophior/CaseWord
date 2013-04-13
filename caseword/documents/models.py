@@ -7,3 +7,9 @@ class Brief(models.Model):
     text = models.TextField(default = '')
     legal_venue = models.CharField(max_length = 140)
 
+    def __unicode__(self):
+        return self.title
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('edit_brief', (self.id,))

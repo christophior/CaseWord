@@ -22,6 +22,7 @@
 		}
 	</style>
 	{% load staticfiles %}
+        {% load dajaxice_templatetags %}
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
 	<!-- Skin CSS file -->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/stylesheet.css' %}">
@@ -178,8 +179,7 @@ myEditor.on('save', exportToCsv, myEditor, true);
 
 myEditor.on('toolbarLoaded', function() {
     //Using the Dynamic Event cmdClick where cmd is the value of the button above
-    this.toolbar.on('saveClick', exportToCsv);
-	
+    this.toolbar.on('saveClick', Dajaxice.caseword.documents.save_brief(save_callback, {'brief_id': {{ brief.id }}, 'text': myEditor.get('element').value}))
     }, myEditor, true);
 //YAHOO.util.Event.on("myEditor", "focusin", exportToCsv});
 //setInterval(exportToCsv, 5000);
@@ -198,6 +198,12 @@ myEditor.on('toolbarLoaded', function() {
 	<div id="right">
 		<iframe id="browser" src="https://1.next.westlaw.com/Session/SignOn.html?bhcp=1" width="100%" height="100%" scrolling="yes"></iframe>
 	</div>
+        {% dajaxice_js_import %}
+        <script>
+            function save_callback() {
+                alert(data.text);
+            }
+        </script>
 </body>
 
 </html>
