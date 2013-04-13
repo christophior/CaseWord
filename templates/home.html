@@ -1,11 +1,79 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html lang="en">
-    <head>
-        <meta content = 'text/html'/>
-        <title>CaseWord</title>
-    </head>
-    <body>
-        <h1>CaseWord</h1>
-    </body>
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		#header{
+			position:fixed;
+			width:100%;
+			height: 100px;
+		}
+		#left{
+		    position:fixed;
+		    /*margin-top:100px;*/
+		    width:50%;
+		}
+		#right{
+			position:fixed;
+			/*margin-top:100px;*/
+			margin-left: 50%;
+		    width:50%;
+		    height: 100%;
+		}
+	</style>
+	{% load staticfiles %}
+	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+	<!-- Skin CSS file -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/stylesheet.css' %}">
+	<!-- Utility Dependencies -->
+	<script src="http://yui.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+	<script src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script> 
+	<!-- Needed for Menus, Buttons and Overlays used in the Toolbar -->
+	<script src="http://yui.yahooapis.com/2.9.0/build/container/container_core-min.js"></script>
+	<script src="http://yui.yahooapis.com/2.9.0/build/menu/menu-min.js"></script>
+	<script src="http://yui.yahooapis.com/2.9.0/build/button/button-min.js"></script>
+	<!-- Source file for Rich Text Editor-->
+	<script src="http://yui.yahooapis.com/2.9.0/build/editor/editor-min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+
+</head>
+
+<body class="yui-skin-sam">
+	<!-- <div id="header"></div> -->
+	<div id="left">
+		<script>
+		var myEditor = new YAHOO.widget.Editor('msgpost', {
+	    height: '100%',
+	    width: '100%',
+	    dompath: false, //Turns on the bar at the bottom
+	    animate: true //Animates the opening, closing and moving of Editor windows
+		});
+		myEditor.render();
+		</script>
+		<button id='a'>zxcv</button>
+		<textarea name="msgpost" id="msgpost" cols="50" rows="10">ghfghfjh</textarea>
+	</div>
+
+	<script type="text/javascript">
+		function back() {
+	    	document.getElementById('browser').contentWindow.history.back(-1);
+		}
+	</script>
+
+	<script type="text/javascript">
+
+	var button = document.getElementById('a');
+	button.addEventListener('click', function(){myEditor.saveHTML();alert(myEditor.get('element').value);});
+	</script>
+
+	<div id="right">
+
+		<iframe id="browser" src="https://1.next.westlaw.com/Session/SignOn.html?bhcp=1" width="100%" height="100%" scrolling="yes"></iframe>
+	</div>
+</body>
+
 </html>
+
+
+
 
