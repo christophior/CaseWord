@@ -8,5 +8,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', views.home, name='home'),
     url(r'^save/([0-9]+)/$', documents_views.save_brief, name = 'save_brief'),
+    url(r'^edit/([0-9]+)/$', documents_views.edit_brief, name = 'edit_brief'),
     url(r'^admin/', include(admin.site.urls)),
 )
