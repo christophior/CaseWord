@@ -19,12 +19,8 @@ SITE_ROOT = '/'.join(os.path.dirname(__file__).split('/')[0:-1])
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'caseword',                    # Or path to database file if using sqlite3.
-        'USER': 'caseword',
-        'PASSWORD': 'caseword_admin_pwd',
-        'HOST': '',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'databases/caseword.db',                    # Or path to database file if using sqlite3.
     }
 }
 

@@ -46,8 +46,7 @@
 <!--        <button id='a'>zxcv</button> -->
 <form method="post" action="POST" id="form1">
         <textarea name="editor" id="editor" cols="50" rows="10" data-id="{{ brief.id }}">
-
-            {{ brief.text }}
+            Home: {{ brief.text }}
         </textarea>
 </form>
         <script>
@@ -169,17 +168,17 @@ function exportToCsv() {
             form.value=myEditor.get('element').value;
             form.submit();
             alert(myEditor.get('element').value);
-        }
+}
 
-YAHOO.util.Event.addListener("b1", "click", exportToCsv);
+// YAHOO.util.Event.addListener("b1", "click", exportToCsv);
 myEditor.render();
-myEditor.on('save', exportToCsv, myEditor, true); 
+// myEditor.on('save', exportToCsv, myEditor, true); 
 
 
 
 myEditor.on('toolbarLoaded', function() {
     //Using the Dynamic Event cmdClick where cmd is the value of the button above
-    this.toolbar.on('saveClick', Dajaxice.caseword.documents.save_brief(save_callback, {'brief_id': {{ brief.id }}, 'text': myEditor.get('element').value}))
+    this.toolbar.on('saveClick', /*Dajaxice.caseword.documents.save_brief(save_callback, {{ brief.id }}, {'text': myEditor.get('element').value})*/ function(){Dajaxice.caseword.documents.save_brief(save_callback, {{ brief.id }},  {'text': myEditor.get('element').value}); alert("Park");})
     }, myEditor, true);
 //YAHOO.util.Event.on("myEditor", "focusin", exportToCsv});
 //setInterval(exportToCsv, 5000);
