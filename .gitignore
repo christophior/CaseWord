@@ -35,9 +35,6 @@ nosetests.xml
 .project
 .pydevproject
 
-<<<<<<< HEAD
 venv/
-=======
-# Virtualenv
-venv
->>>>>>> 05184dfbd13ad84b27171af237d008b04dd5ac5a
+databases/
+caseword/settings.py
