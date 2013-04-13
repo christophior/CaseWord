@@ -1,0 +1,1 @@
+Case Word, an IDE/word processor to help remove the hinderance of writing legal documents and citing resources.
