@@ -1,4 +1,5 @@
 from caseword.documents.models import Brief
+from caseword.settings import SITE_ROOT
 from django.views.generic import ListView
 from django.shortcuts import render_to_response, redirect, render
 from django.http import HttpResponse, Http404
@@ -11,6 +12,7 @@ def edit_brief(request, brief_id):
     brief = Brief.objects.get(id = brief_id)
     context = {
         'brief': brief,
+        'SITE_ROOT': SITE_ROOT,
     }
     return render_to_response('documents/edit_brief.html', context)
 

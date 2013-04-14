@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Editing {{ brief.title }}</title>
+    <style type="text/css">
+        #header{
+            position:fixed;
+            width:100%;
+            height: 100px;
+        }
+        #left{
+            position:fixed;
+            /*margin-top:100px;*/
+            width:50%;
+        }
+        #right{
+            position:fixed;
+            /*margin-top:100px;*/
+            margin-left: 50%;
+            width:50%;
+            height: 100%;
+        }
+
+    </style>
+    {% load staticfiles %}
+        {% load dajaxice_templatetags %}
+        {% dajaxice_js_import %}
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <!-- Skin CSS file -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/stylesheet.css' %}">
+    <!-- Utility Dependencies -->
+    <script src="http://yui.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+    <script src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script> 
+    <!-- Needed for Menus, Buttons and Overlays used in the Toolbar -->
+    <script src="http://yui.yahooapis.com/2.9.0/build/container/container_core-min.js"></script>
+    <script src="http://yui.yahooapis.com/2.9.0/build/menu/menu-min.js"></script>
+    <script src="http://yui.yahooapis.com/2.9.0/build/button/button-min.js"></script>
+    <!-- Source file for Rich Text Editor-->
+    <script src="http://yui.yahooapis.com/2.9.0/build/editor/editor-min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+
+</head>
+
+<body class="yui-skin-sam">
+    <!-- <div id="header"></div> -->
+    <div id="left">
+<!--        <button id='a'>zxcv</button> -->
+<form method="post" action="POST" id="form1">
+        <textarea name="editor" id="editor" cols="50" rows="10" data-id="{{ brief.id }}">
+            {{ brief.text }}
+        </textarea>
+</form>
+        <script>
+//
+var myEditor = new YAHOO.widget.Editor('editor', {
+    height: '100%',
+    width: '100%',
+    dompath: true, //Turns on the bar at the bottom
+    animate: true, //Animates the opening, closing and moving of Editor windows
+    toolbar : {collapse: true,
+titlebar: '',
+draggable: false,
+buttonType: 'advanced',
+buttons: [
+    { group: 'fontstyle', label: 'Font Name and Size',
+        buttons: [
+            { type: 'select', label: 'Arial', value: 'fontname', disabled: true,
+                menu: [
+                    { text: 'Arial', checked: true },
+                    { text: 'Arial Black' },
+                    { text: 'Comic Sans MS' },
+                    { text: 'Courier New' },
+                    { text: 'Lucida Console' },
+                    { text: 'Tahoma' },
+                    { text: 'Times New Roman' },
+                    { text: 'Trebuchet MS' },
+                    { text: 'Verdana' }
+                ]
+            },
+            { type: 'spin', label: '13', value: 'fontsize', range: [ 9, 75 ], disabled: true }
+        ]
+    },
+    { type: 'separator' },
+    { group: 'textstyle', label: 'Font Style',
+        buttons: [
+            { type: 'push', label: 'Bold CTRL + SHIFT + B', value: 'bold' },
+            { type: 'push', label: 'Italic CTRL + SHIFT + I', value: 'italic' },
+            { type: 'push', label: 'Underline CTRL + SHIFT + U', value: 'underline' },
+            { type: 'separator' },
+            { type: 'push', label: 'Subscript', value: 'subscript', disabled: true },
+            { type: 'push', label: 'Superscript', value: 'superscript', disabled: true },
+            { type: 'separator' },
+            { type: 'color', label: 'Font Color', value: 'forecolor', disabled: true },
+            { type: 'color', label: 'Background Color', value: 'backcolor', disabled: true },
+            { type: 'separator' },
+            { type: 'push', label: 'Remove Formatting', value: 'removeformat', disabled: true },
+            { type: 'push', label: 'Show/Hide Hidden Elements', value: 'hiddenelements' }
+        ]
+    },
+    { type: 'separator' },
+    { group: 'alignment', label: 'Alignment',
+        buttons: [
+            { type: 'push', label: 'Align Left CTRL + SHIFT + [', value: 'justifyleft' },
+            { type: 'push', label: 'Align Center CTRL + SHIFT + |', value: 'justifycenter' },
+            { type: 'push', label: 'Align Right CTRL + SHIFT + ]', value: 'justifyright' },
+            { type: 'push', label: 'Justify', value: 'justifyfull' }
+        ]
+    },
+    { type: 'separator' },
+    { group: 'parastyle', label: 'Paragraph Style',
+        buttons: [
+        { type: 'select', label: 'Normal', value: 'heading', disabled: true,
+            menu: [
+                { text: 'Normal', value: 'none', checked: true },
+                { text: 'Header 1', value: 'h1' },
+                { text: 'Header 2', value: 'h2' },
+                { text: 'Header 3', value: 'h3' },
+                { text: 'Header 4', value: 'h4' },
+                { text: 'Header 5', value: 'h5' },
+                { text: 'Header 6', value: 'h6' }
+            ]
+        }
+        ]
+    },
+    { type: 'separator' },
+    { group: 'indentlist', label: 'Indents Lists',
+        buttons: [
+            { type: 'push', label: 'Indent', value: 'indent', disabled: true },
+            { type: 'push', label: 'Outdent', value: 'outdent', disabled: true },
+            { type: 'push', label: 'Create an Unordered List', value: 'insertunorderedlist' },
+            { type: 'push', label: 'Create an Ordered List', value: 'insertorderedlist' }
+        ]
+    },
+    { type: 'separator' },
+    { group: 'undoredo', label: 'Undo/Redo',
+                            buttons: [
+                                { type: 'push', label: 'Undo', value: 'undo', disabled: true },
+                                { type: 'push', label: 'Redo', value: 'redo', disabled: true }
+                                
+                            ]
+    },
+    { type: 'separator' },
+    { group: 'insertitem', label: 'Insert Item',
+        buttons: [
+            { type: 'push', label: 'HTML Link CTRL + SHIFT + L', value: 'createlink', disabled: true },
+            { type: 'push', label: 'Insert Image', value: 'insertimage' }
+        ]
+    },
+    { type: 'separator' },
+    {group: 'saves', label: 'Save',
+        buttons: [
+            {id: "b1", type: "push", label: "My Button", value: "save"}
+        ]
+    }
+] }
+
+    });
+function exportToCsv() {
+            myEditor.saveHTML();
+            //alert(button.toString());
+            //alert(myEditor.get('element').value);
+            var form = document.createElement("form");
+            form.setAttribute("method", "post");
+            //alert(myEditor.get('element').value);
+            var idd = document.getElementById("editor").getAttribute("data-id");
+            alert(idd);
+            form.setAttribute("action", ("/save/"+idd+"/"));
+            form.setAttribute("id", "form1");
+            form.value=myEditor.get('element').value;
+            form.submit();
+            alert(myEditor.get('element').value);
+}
+
+// YAHOO.util.Event.addListener("b1", "click", exportToCsv);
+
+myEditor.render();
+// myEditor.on('save', exportToCsv, myEditor, true); 
+
+
+myEditor.on('toolbarLoaded', function() {
+    //Using the Dynamic Event cmdClick where cmd is the value of the button above
+    this.toolbar.on('saveClick', 
+    function(){alert("XX");
+        var idd = document.getElementById("editor").getAttribute("data-id");
+        $.ajax({
+            type: "POST",
+            url: "/save/"+idd+"/",
+            data : { text : myEditor.getEditorHTML()}
+        })
+    })
+    }, myEditor, true);
+//YAHOO.util.Event.on("myEditor", "focusin", exportToCsv});
+//setInterval(exportToCsv, 5000);
+//button.addEventListener('click', exportToCsv);
+
+
+</script>
+
+
+    </div>
+
+    <script type="text/javascript">
+        function back() {
+            document.getElementById('browser').contentWindow.history.back(-1);
+        }
+    </script>
+
+    <div id="right">
+    <!--<iframe id="browser" src="https://1.next.westlaw.com/Session/SignOn.html?bhcp=1" width="100%" height="100%" scrolling="yes"></iframe>-->
+    <iframe id="browser" src="{% url 'iframe_view' 'westlaw_pga_v_martin' %}" width="100%" height="100%" scrolling="yes"></iframe>
+        <!-- *665 disabled contestant may be denied the use of a golf cart because it would “fundamentally alter the nature” of the tournaments, § 12182(b)(2)(A)(ii), to allow him to ride when all other contestants must walk. I Petitioner PGA TOUR, Inc., a nonprofit entity formed in 1968, sponsors and cosponsors professional golf tournaments conducted on three annual tours. About 200 golfers participate in the PGA TOUR; about 170 in the NIKE TOUR1; and about 100 in the SENIOR PGA TOUR. PGA TOUR and NIKE TOUR tournaments typically are 4–day events, played on courses leased and operated by petitioner. Most participants, however, earn playing privileges in the PGA TOUR or NIKE TOUR by way of a three-stage qualifying tournament known as the “Q–School.” Any member of the public may enter the Q–School by paying a $3,000 entry fee and submitting two letters of reference *666 from, among others, PGA TOUR or NIKE TOUR members. The $3,000 entry fee covers the players' greens fees and the cost of golf carts, which are permitted during the first two stages, but which have been prohibited during the third stage since 1997. Each year, over a thousand contestants compete in the first stage, which consists of four 18–hole rounds at different locations. *667 Approximately half of them make it to the second stage, which also includes 72 holes. Around 168 players survive the second stage and advance to the final one, where they compete over 108 holes. Of those finalists, about a fourth qualify for membership in the PGA TOUR, and the rest gain membership in the NIKE TOUR. The significance of making it into either tour is illuminated by the fact that there are about 25 million golfers in the country.2 -->
+    </div>
+    <script>
+        function getSelectionText() {
+            //get the selection text
+            var text = "";
+            if (window.getSelection) {
+                text = window.getSelection().toString();
+                alert('if');
+            } else if (document.selection && document.selection.type != "Control") {
+                text = document.selection.createRange().text;
+                alert('else if');
+            }
+                // Copy selected text
+            //document.getElementById("selected").innerHTML = text;
+
+            var sel, range, tempRange, before = "";
+            
+            if (typeof window.getSelection != "undefined"){
+                        // Get selection object (type == range)
+                sel = window.getSelection();
+                if (sel.rangeCount){range = sel.getRangeAt(0);}
+                else {
+                    range = document.createRange();
+                    range.collapse(true);
+                }
+                tempRange = document.createRange();
+                tempRange.selectNodeContents(document.body);
+                tempRange.setEnd(range.startContainer, range.startOffset);
+                        // text before selection
+                before = tempRange.toString();
+                tempRange.detach();
+            }
+            else if ( (sel = document.selection) && sel.type != "Control"){
+                range = sel.createRange();
+                temmpRange = document.body.createTextRange().text;
+                tempRange.moveToElementText(document.body);
+                tempRange.setEndPoint("EndToStart", range);
+                        // Ibid
+                before = tempRange.text;
+            }
+
+            before = before.split("").reverse().join("");
+                        // Match page range
+            var pattern = /[0-9]+\*/;
+            var result = String(before.match(pattern));
+            result = result.split("").reverse().join("");
+                        // Drop asterix
+            result = result.substring(1);
+                        // Store previous page result
+            //        document.getElementById("before").innerHTML = result;
+                        // Repeat to find page numbers within selection
+                        text = text.split("").reverse().join("");
+                        var selection_result = text.match(pattern);
+                        if (selection_result) {
+                            selection_result = selection_result.pop();
+                            selection_result = selection_result.split("").reverse().join("").substring(1);
+                        }
+            //            document.getElementById("end_page").innerHTML = selection_result
+                        myEditor.execCommand('inserthtml', result);
+                        myEditor._focusWindow();
+                        return {'start_page': result, 'end_page': selection_result};
+        }
+        //var iframe = document.getElementById('browser');
+        //var iframe_doc = iframe.contentDocument;
+        //var impl = document.implementation;
+        // var xmlDoc = impl.createDocument()
+        //var html_doc = impl.createHTMLDocument("{% url 'iframe_view' 'westlaw_pga_v_martin' %}");
+        //var holder = document;
+        var iframe;
+        $(window).load(function (){
+            iframe = document.getElementById('browser');
+            var iframe_doc = iframe.contentDocument;
+            var citeId = iframe_doc.getElementById('co_docHeaderCitation');
+            $(iframe_doc).ready(function() {
+                $('#right').mouseup(function (e){
+                getSelectionText();
+            })
+        });
+    </script>
+
+</body>
+
+</html>
+
+
+

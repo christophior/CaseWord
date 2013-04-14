@@ -91,9 +91,9 @@ SECRET_KEY = 'k2n*zhka2b4&&u0w%(z27yy7_k0uok523y&mewxw+q1(h&uoa('
 
 # List of callables that know how to import templates from various sources.
 
-MIDDLEWARE_CLASSES += (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
+#MIDDLEWARE_CLASSES += (
+#    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#)
 
 ROOT_URLCONF = 'caseword.urls'
 
@@ -104,8 +104,8 @@ TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates'),
 )
 
-if DEBUG:
-    INSTALLED_APPS += ('debug_toolbar',)
+#if DEBUG:
+#    INSTALLED_APPS += ('debug_toolbar',)
 
 INTERNAL_IPS = ('127.0.0.1',)
 
