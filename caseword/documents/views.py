@@ -12,7 +12,7 @@ def edit_brief(request, brief_id):
     context = {
         'brief': brief,
     }
-    return render_to_response('home.html', context)
+    return render_to_response('documents/edit_brief.html', context)
 
 @csrf_exempt
 def save_brief(request, brief_id = None, title = 'Untitled'):
