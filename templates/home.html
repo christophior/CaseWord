@@ -20,9 +20,11 @@
             width:50%;
             height: 100%;
         }
+
     </style>
     {% load staticfiles %}
         {% load dajaxice_templatetags %}
+        {% dajaxice_js_import %}
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <!-- Skin CSS file -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/stylesheet.css' %}">
@@ -46,7 +48,7 @@
 <!--        <button id='a'>zxcv</button> -->
 <form method="post" action="POST" id="form1">
         <textarea name="editor" id="editor" cols="50" rows="10" data-id="{{ brief.id }}">
-            Home: {{ brief.text }}
+            {{ brief.text }}
         </textarea>
 </form>
         <script>
@@ -57,7 +59,7 @@ var myEditor = new YAHOO.widget.Editor('editor', {
     dompath: true, //Turns on the bar at the bottom
     animate: true, //Animates the opening, closing and moving of Editor windows
     toolbar : {collapse: true,
-titlebar: 'Text Editing Tools',
+titlebar: '',
 draggable: false,
 buttonType: 'advanced',
 buttons: [
@@ -171,18 +173,28 @@ function exportToCsv() {
 }
 
 // YAHOO.util.Event.addListener("b1", "click", exportToCsv);
+
 myEditor.render();
 // myEditor.on('save', exportToCsv, myEditor, true); 
 
 
-
 myEditor.on('toolbarLoaded', function() {
     //Using the Dynamic Event cmdClick where cmd is the value of the button above
-    this.toolbar.on('saveClick', /*Dajaxice.caseword.documents.save_brief(save_callback, {{ brief.id }}, {'text': myEditor.get('element').value})*/ function(){Dajaxice.caseword.documents.save_brief(save_callback, {{ brief.id }},  {'text': myEditor.get('element').value}); alert("Park");})
+    this.toolbar.on('saveClick', 
+    function(){alert("XX");
+        var idd = document.getElementById("editor").getAttribute("data-id");
+        $.ajax({
+            type: "POST",
+            url: "/save/"+idd+"/",
+            data : { text : myEditor.getEditorHTML()}
+        })
+    })
     }, myEditor, true);
 //YAHOO.util.Event.on("myEditor", "focusin", exportToCsv});
 //setInterval(exportToCsv, 5000);
 //button.addEventListener('click', exportToCsv);
+
+
 </script>
 
 
@@ -197,12 +209,7 @@ myEditor.on('toolbarLoaded', function() {
     <div id="right">
         <iframe id="browser" src="https://1.next.westlaw.com/Session/SignOn.html?bhcp=1" width="100%" height="100%" scrolling="yes"></iframe>
     </div>
-        {% dajaxice_js_import %}
-        <script>
-            function save_callback() {
-                alert(data.text);
-            }
-        </script>
+
 </body>
 
 </html>

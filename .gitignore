@@ -37,3 +37,6 @@ nosetests.xml
 
 venv/
 databases/
+caseword/settings_dev.py
+
+*.swp
