@@ -77,19 +77,22 @@ myEditor = new YAHOO.widget.Editor('editor', {
     dompath: true, //Turns on the bar at the bottom
     animate: true, //Animates the opening, closing and moving of Editor windows
     focusAtStart : true,
-    /*toolbar : {collapse: true,
+    /*bartoolbar : {collapse: true,
 titlebar: '',
 draggable: false
 buttons : []
 }*/
 
     });
+//myEditor.toolbar.titlebar = "",
+myEditor.get('toolbar').titlebar = '';
 
 myEditor.render();
 // myEditor.on('save', exportToCsv, myEditor, true); 
 })();
 
 myEditor.on('toolbarLoaded', function() {
+
     var imgConfig = {
         type: 'push', label: 'Save', value: 'save', unselectable: 'on'
     };
@@ -98,7 +101,8 @@ myEditor.on('toolbarLoaded', function() {
 
     //Using the Dynamic Event cmdClick where cmd is the value of the button above
     this.toolbar.on('saveClick', 
-    function(){alert(myEditor.getEditorHTML());
+    function(){
+        alert(myEditor.getEditorHTML());
         this.deselectButton('save');
         this.disableButton('save');
         this.enableButton('save');
@@ -135,6 +139,7 @@ myEditor.on('toolbarLoaded', function() {
     <script>
 
         function getSelectionText() {
+            myEditor._focusWindow();
             if (window.getSelection().toString().length == 0)
                 return "";
             //get the selection text
@@ -193,12 +198,14 @@ myEditor.on('toolbarLoaded', function() {
                         if (result == "lun"){
                             result = "";
                         }
-                        var perfect = "<span style =\"background-color:#bfdfff;\"><u>PGA Tour, Inc. v. Martin</u>, 532 U.S. 661, </span>";
-                        var year = "<span style =\"background-color:#bfdfff;\"> (2001)</span>. "
-                        myEditor.execCommand('inserthtml', perfect);
-                        myEditor.execCommand('inserthtml', "<span style =\"background-color:#bfdfff;\">" + result + "</span>");
-                        myEditor.execCommand('inserthtml', year);
-                        myEditor._focusWindow();
+                        var font_pattern = /font-size: [0-9]*px;/;
+                        var font_size = myEditor.getEditorHTML().match(font_pattern);
+                        var perfect = "<span style =\"background-color:#bfdfff; " + font_size + " \"><u>PGA Tour, Inc. v. Martin</u>, 532 U.S. 661, ";
+                        var year = "(2001).</span> ";
+
+                        var theOutput = perfect + result + year;
+
+                        myEditor.execCommand('inserthtml', theOutput);
                         return {'start_page': result, 'end_page': selection_result};
         }
         //var iframe = document.getElementById('browser');
